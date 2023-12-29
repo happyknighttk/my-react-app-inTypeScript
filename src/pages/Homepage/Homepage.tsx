@@ -1,25 +1,25 @@
-import { useEffect, useState } from "react";
-import ProductCard from "../../components/ProductCard.tsx/ProductCard";
-import ProductService from "../../services/ProductService";
+import React, { useEffect, useState } from "react";
+import ProductCard from "../../components/ProductCard/ProductCard";
+import ProductService from "../../services/productService";
 import { ProductModel } from "../../models/responses/ProductModel";
 
 type Props = {};
 
-export const Homepage = (props: Props) => {
+const Homepage = (props: Props) => {
   const [products, setProducts] = useState<ProductModel[]>([]);
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
+  const onProductDelete = (id: number) => {
+    setProducts(products.filter((i) => i.id !== id));
+  };
+
   const fetchProducts = () => {
     ProductService.getAll().then((response: any) => {
       setProducts(response.data.products);
     });
-  };
-
-  const onProductDelete = (id: number) => {
-    setProducts(products.filter((i) => i.id !== id));
   };
 
   return (
@@ -34,3 +34,5 @@ export const Homepage = (props: Props) => {
     </div>
   );
 };
+
+export default Homepage;
